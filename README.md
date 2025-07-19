@@ -40,8 +40,8 @@ lxml
 1. **Clone the repository (optional):**
 
 ```bash
-git clone <your-repo-url>
-cd <your-folder>
+gh repo clone priyanshu5485/unravel_de_assignment
+cd unravel_de_assignment
 ```
 
 2. **Save the script** (e.g., `news_pipeline.py`) and run it using:
