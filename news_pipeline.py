@@ -34,6 +34,13 @@ DB_FILE = 'news.db'
 
 # ---------- Scraper: Skift ----------
 def scrape_skift():
+    """
+    Scrape latest articles from Skift homepage.
+
+    Returns:
+        list: A list of dictionaries containing 'url', 'title', 'published_at', and 'source' keys
+              for each article found.
+    """
     log.info("-------Scraping News Articles from Skift...-------")
     base_url = 'https://skift.com'
     articles = []
@@ -85,6 +92,13 @@ def scrape_skift():
 
 # ---------- Scraper: PhocusWire ----------
 def get_phocuswire_articles():
+    """
+    Scrape the latest articles from the PhocusWire Latest News page.
+
+    Returns:
+        list: A list of dictionaries with keys 'url', 'title', 'published_at', and 'source'
+              for each article.
+    """
     log.info("------Scraping News Articles from PhocusWire...------")
     url = "https://www.phocuswire.com/Latest-News"
     articles = []
@@ -131,6 +145,13 @@ def get_phocuswire_articles():
 
 # ---------- Store Articles in SQLite ----------
 def store_articles_to_db(articles, db_name=DB_FILE):
+    """
+    Insert articles into a SQLite database. Skips duplicates using `INSERT OR IGNORE`.
+
+    Args:
+        articles (list): List of dictionaries representing articles.
+        db_name (str): Name of the SQLite database file (default is 'news.db').
+    """
     log.info(f"Inserting {len(articles)} articles into database...")
     conn = sqlite3.connect(db_name)
     cursor = conn.cursor()
@@ -162,6 +183,13 @@ def store_articles_to_db(articles, db_name=DB_FILE):
 
 # ---------- Store Articles in CSV ----------
 def store_articles_to_csv(articles, csv_file=CSV_FILE):
+    """
+    Write article data to a CSV file. Overwrites existing data.
+
+    Args:
+        articles (list): List of dictionaries representing articles.
+        csv_file (str): Path to the CSV file (default is 'articles.csv').
+    """
     log.info(f"Writing {len(articles)} articles to CSV...")
     file_exists = os.path.isfile(csv_file)
 
@@ -181,6 +209,16 @@ def store_articles_to_csv(articles, csv_file=CSV_FILE):
 
 # ---------- Fetch Top 5 Latest Articles ----------
 def get_latest_articles(db_name=DB_FILE):
+    """
+    Fetch the 5 most recent articles from the SQLite database.
+
+    Args:
+        db_name (str): SQLite database file to query (default is 'news.db').
+
+    Returns:
+        list: List of tuples representing the latest articles with fields:
+              (title, source, published_at, url)
+    """
     conn = sqlite3.connect(db_name)
     cursor = conn.cursor()
     cursor.execute('''
@@ -195,6 +233,12 @@ def get_latest_articles(db_name=DB_FILE):
 
 # ---------- Main Pipeline ----------
 def run_pipeline():
+    """
+    Run the entire news scraping and storage pipeline:
+    - Scrapes articles from Skift and PhocusWire
+    - Stores them in both a SQLite database and a CSV file
+    - Logs the top 5 latest articles
+    """
     log.info("Starting news pipeline...")
 
     skift_articles = scrape_skift()
@@ -219,4 +263,7 @@ def run_pipeline():
 
 # ---------- Execute ----------
 if __name__ == "__main__":
+    """
+    Run the news pipeline when this script is executed directly.
+    """
     run_pipeline()
