@@ -13,7 +13,6 @@ This is a Python-based news scraping pipeline that fetches the latest articles f
 - Prints the **Top 5 combined latest articles** from Skift and Phocuswire
 - Robust **logging system** with console and file logs
 
----
 
 ## 🛠️ Requirements
 
@@ -33,7 +32,26 @@ tabulate
 lxml
 ```
 
----
+
+## 🧠 Approach & Implementation Details
+
+✅ Web Scraping
+- **Skift** and **PhocusWire** are scraped using `requests` and `BeautifulSoup`.
+- HTML parsing is done via the `lxml` parser for speed and accuracy.
+- Published timestamps are parsed or defaulted to current UTC.
+
+### ✅ Data Storage
+- Articles are stored in `SQLite` using a schema with unique `url` constraint.
+- `INSERT OR IGNORE` ensures duplicate entries are skipped safely.
+
+### ✅ Logging & Traceability
+- `logging` module is configured to write to both console and `news_pipeline.log`.
+- Every article fetched is logged with its metadata for debugging and traceability.
+
+### ✅ Output & Display
+- Articles are exported to `articles.csv` using Python’s `csv` module.
+- The 5 most recent articles (based on timestamp) are displayed using `tabulate`.
+
 
 ## 🚀 How to Run
 
@@ -57,7 +75,6 @@ python news_pipeline.py
 - A `articles.csv` CSV file
 - A `news_pipeline.log` log file
 
----
 
 ## 📂 File Structure
 
@@ -71,7 +88,6 @@ python news_pipeline.py
 └── README.md              # This file
 ```
 
----
 
 ## 📋 Example Output
 
@@ -91,7 +107,6 @@ python news_pipeline.py
 +-------------------------------------------------------------------+------------+---------------------+------------------------------------------------------------------------------------------------+
 ```
 
----
 
 ## 🧹 Cleanup
 
